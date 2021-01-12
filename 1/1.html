@@ -45,8 +45,9 @@
                         <button type="button" @click="addGuest" class="btn btn-primary" id="guests">+</button>
                     </div>
                     <div v-for="(guest, i) in guests" class="my-3">
-                        <label v-bind:for="'guest-' + i" class="form-label">Guest {{ i + 1 }}</label>
-                        <input type="text" class="form-control" v-bind:id="'guest-' + i" v-model="guest.name"/>
+                        <label v-bind:for="'guest-' + i" @dblclick="onDoubleClick(i)" class="form-label">Guest {{ i + 1
+                            }}</label>
+                        <input type="text" class="form-control" v-bind:id="'guest-' + i" v-model="guest.name" />
                     </div>
                     <button type="submit" class="btn btn-primary">Send Data</button>
                 </form>
@@ -92,10 +93,13 @@
             },
             methods: {
                 addGuest() {
-                    this.guests.push({name: ""})
+                    this.guests.push({ name: "" })
                 },
                 onSubmit() {
                     this.step = 2
+                },
+                onDoubleClick(id) {
+                    this.guests.splice(id, 1)
                 }
             }
         });
