@@ -21,8 +21,6 @@
             <div v-timer:1000>3</div>
         </div>
     </div>
-
-    </div>
     <script>
         Vue.directive("timer", {
             inserted(el, binding) {
@@ -32,26 +30,22 @@
                 for (let m in binding.modifiers) {
                     times = parseInt(m);
 
-                    if (isNaN(times)) {
-                        times = false;
-                    } else {
-                        break;
-                    }
+                    if (!isNaN(times)) { break; }
                 }
 
                 if (binding.modifiers.run) {
                     zoom();
-                    
+
                     times -= 1;
                 }
-                
-                let intervalId = setInterval( () => {
+
+                let intervalId = setInterval(() => {
                     zoom();
                     times -= 1;
-                    
-                    if(times == 0) { clearInterval(intervalId) }
+
+                    if (times == 0) { clearInterval(intervalId) }
                 }, timeout);
-                
+
                 function zoom() {
                     let style = window.getComputedStyle(el).fontSize;
                     let fontSize = parseInt(style);
