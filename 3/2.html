@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <field-with-check v-for="(field, i) in fields" :key="i" :name="field.name" :value="field.value"
+                :pattern="field.pattern" :valid="field.valid" @input="onInput($event.target.value, i)"></field-with-check>
+        </div>
+    </div>
+    <script>
+        Vue.component('field-with-check', {
+            props: [
+                "name",
+                "value",
+                "pattern",
+                "valid"
+            ],
+            methods: {
+                onInput(v, i) {
+                    this.$emit("input", v, i)
+                }
+            },
+            template: `
+            <div>
+                <label for="name" class="form-label">{{ name }}</label>
+                <i class="fa fa-check-circle" style="color: green;" v-show="valid === 1"></i>
+                <i class="fa fa-exclamation-circle" style="color: red;" v-show="valid === 0"></i>
+                <input type="text" class="form-control" :id="name" v-bind="value"
+                            @input="onInput">
+            </div>
+            `
+        })
+
+        new Vue({
+            el: '.container',
+            data: {
+                fields: [
+                    {
+                        name: "Name",
+                        value: "",
+                        pattern: /^[a-zA-Z]{2,30}$/,
+                        valid: null
+                    },
+                    {
+                        name: "Phone",
+                        value: "",
+                        pattern: /^\d{7,14}$/,
+                        valid: null
+                    },
+                    {
+                        name: "Email",
+                        value: "",
+                        pattern: /.+/,
+                        valid: null
+                    },
+                    {
+                        name: "Field 1",
+                        value: "",
+                        pattern: /.+/,
+                        valid: null
+                    },
+                    {
+                        name: "Field 2",
+                        value: "",
+                        pattern: /.+/,
+                        valid: null
+                    },
+                ]
+
+            },
+            methods: {
+                onInput(v, i) {
+                    field = this.fields[i];
+
+                    if (field.pattern.test(v)) {
+                        field.valid = 1;
+                    } else {
+                        field.valid = 0;
+                    }
+                }
+
+            },
+            computed: {
+
+            }
+        });
+
+    </script>
+</body>
+
+</html>
