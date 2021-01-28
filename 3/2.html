@@ -17,18 +17,17 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <field-with-check v-for="(field, i) in fields" :key="i" :name="field.name" :value="field.value"
-                :pattern="field.pattern" :valid="field.valid" @input="onInput($event.target.value, i)"></field-with-check>
+            <field-with-check
+                v-for="(field, i) in fields"
+                :key="i"
+                :field="field"
+                @input="onInput($event.target.value, i)"
+                />
         </div>
     </div>
     <script>
         Vue.component('field-with-check', {
-            props: [
-                "name",
-                "value",
-                "pattern",
-                "valid"
-            ],
+            props: ["field"],
             methods: {
                 onInput(v, i) {
                     this.$emit("input", v, i)
@@ -36,11 +35,11 @@
             },
             template: `
             <div>
-                <label for="name" class="form-label">{{ name }}</label>
-                <i class="fa fa-check-circle" style="color: green;" v-show="valid === 1"></i>
-                <i class="fa fa-exclamation-circle" style="color: red;" v-show="valid === 0"></i>
-                <input type="text" class="form-control" :id="name" v-bind="value"
-                            @input="onInput">
+                <label for="field.name" class="form-label">{{ field.name }}</label>
+                <i class="fa fa-check-circle" style="color: green;" v-show="field.valid === 1"></i>
+                <i class="fa fa-exclamation-circle" style="color: red;" v-show="field.valid === 0"></i>
+                <input type="text" class="form-control" :id="field.name" v-bind="field.value"
+                            @input="onInput"/>
             </div>
             `
         })
